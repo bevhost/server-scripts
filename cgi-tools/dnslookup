@@ -1,0 +1,64 @@
+#!/bin/sh
+
+HOST=`echo $QUERY_STRING | gawk  '/data=/ { print $1 }' | cut -f2 -d= | cut -f1 -d\& | sed s/%3A/:/g`
+SERVER=`echo $QUERY_STRING | gawk  '/server=/ { print $1 }' | cut -f3 -d= | sed s/%3A/:/g`
+
+echo Content-type: text/html
+echo
+echo '<html>'
+echo '<head>'
+echo '<meta http-equiv="Content-Type"'
+echo 'content="text/html; charset=iso-8859-1">'
+echo '<LINK REL=stylesheet HREF="/html4.css">'
+echo '<title>Beveridge Hosting DNS Lookup</title>'
+echo '</head>'
+echo '<body>'
+echo '<h1>Beveridge Hosting DNS Lookup</h1>'
+echo '<hr>'
+echo '<p>Use this form to query the Domain Name'
+echo 'Service.</p>'
+echo '<form action="/cgi-bin/dnslookup" method="GET"'
+echo '    <p>Enter the hostname or IP address to lookup in the space'
+echo '    provided below.</p>'
+echo '    <blockquote>'
+echo '        <p><input type="text" size="50" maxlength="50"'
+echo '        name="data" value="'$HOST'"> <br>'
+echo '        </p>'
+echo '    </blockquote>'
+echo '    <p><input type="submit" value="Submit Form">'
+echo '    <input type="reset" value="Reset Form">&nbsp;'
+echo '    <a href="/cgi-bin/dnslookup">Clear Form</a></p>'
+echo '    <blockquote>'
+echo '        <p>(Optional) server to query:<br>'
+echo '		 <input type="text" size="50" maxlength="50"'
+echo '        name="server" value="'$SERVER'"> <br>'
+echo '        </p>'
+echo '    </blockquote>'
+echo '</form>'
+if [ $HOST ]
+then
+   echo '<hr>'
+   REVERSE=`/usr/bin/host $HOST $SERVER | grep .arpa | cut -f1 -d\  `
+   /usr/bin/host -ttxt $HOST $SERVER
+   echo "<h3>DiG Results for $HOST"
+   if [ $SERVER ]
+   then
+	echo " from $SERVER"
+   fi
+   echo '</h3><pre>'
+   if [ $SERVER ]
+   then
+	SERVER=`echo @$SERVER`
+   fi
+   if [ $REVERSE ]
+   then
+      /usr/bin/dig -tptr $SERVER $REVERSE 
+   else
+      /usr/bin/dig -tany $SERVER $HOST 
+   fi
+   echo '</pre>'
+fi
+echo '<hr><a href="http://www.bevhost.com">www.bevhost.com</a> <a href="/">Other Tools</a>'
+echo '</body>'
+echo '</html>'
+

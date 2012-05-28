@@ -1,0 +1,36 @@
+BODY {
+         margin: 50px;
+        min-height: 100%;
+	max-width: 1000px;
+        height: 100%;
+        z-index: 0;
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: 11px;
+   color: #291a17;
+           font: 10pt/11pt arial, sans-serif, helvetica;
+           }
+
+H1 {
+        font: bold 13pt/14pt arial, sans-serif, helvetica;
+        }
+H2 {
+        font: bold 11pt/12pt arial, sans-serif, helvetica;
+        }
+H3 {
+        font: bold 10pt/11pt arial, sans-serif, helvetica;
+        }
+table.info {
+        border: solid thin #CCCCCC;
+        }
+TH {
+        font: bold 10pt/11pt arial, sans-serif, helvetica;
+        background: #CCCCCC;
+        }
+TD {
+        font: normal 9pt/10pt arial, sans-serif, helvetica;
+        }
+P       {
+                font: 10pt/11pt arial, sans-serif, helvetica;
+                color: #000000;
+        }
+
